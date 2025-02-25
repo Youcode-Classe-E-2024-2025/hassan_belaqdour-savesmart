@@ -19,7 +19,7 @@
     </style>
 </head>
 
-<body class="h-screen overflow-hidden flex bg-indigo-50 text-gray-800">
+<body class="h-screen overflow-hidden flex bg-green-50 text-gray-800">
 
     <!-- Partie Image (50% de la largeur) -->
     <div class="w-1/2 h-screen">
@@ -28,13 +28,14 @@
     </div>
 
     <!-- Partie Formulaire d'Inscription (50% de la largeur) -->
-    <div class="w-1/2 flex items-center justify-center">
+    <div class="w-1/2 flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200">
         <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 w-3/4">
 
             <div class="text-center mb-6">
-                <h1 class="font-semibold text-3xl text-indigo-700" style="font-family: 'Sniglet', cursive;">SaveSmart
+                <h1 class="font-semibold text-3xl text-green-700" style="font-family: 'Sniglet', cursive;">SaveSmart
                 </h1>
-                <p class="text-sm" style="font-family: 'Sniglet', cursive;">Créez votre compte SaveSmart et commencez à
+                <p class="text-sm text-gray-700" style="font-family: 'Sniglet', cursive;">Créez votre compte SaveSmart
+                    et commencez à
                     gérer vos finances.</p>
             </div>
 
@@ -55,7 +56,7 @@
                     <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
                         style="font-family: 'Sniglet', cursive;">Nom :</label>
                     <input type="text" id="name" name="name"
-                        class="shadow appearance-none border border-indigo-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        class="shadow appearance-none border border-green-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value="{{ old('name') }}" required style="font-family: 'Sniglet', cursive;">
                 </div>
 
@@ -63,7 +64,7 @@
                     <label for="email" class="block text-gray-700 text-sm font-bold mb-2"
                         style="font-family: 'Sniglet', cursive;">Email :</label>
                     <input type="email" id="email" name="email"
-                        class="shadow appearance-none border border-indigo-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        class="shadow appearance-none border border-green-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value="{{ old('email') }}" required style="font-family: 'Sniglet', cursive;">
                 </div>
 
@@ -71,7 +72,7 @@
                     <label for="password" class="block text-gray-700 text-sm font-bold mb-2"
                         style="font-family: 'Sniglet', cursive;">Mot de passe :</label>
                     <input type="password" id="password" name="password"
-                        class="shadow appearance-none border border-indigo-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        class="shadow appearance-none border border-green-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         required style="font-family: 'Sniglet', cursive;">
                 </div>
 
@@ -80,15 +81,15 @@
                         style="font-family: 'Sniglet', cursive;">Confirmation
                         du mot de passe :</label>
                     <input type="password" id="password_confirmation" name="password_confirmation"
-                        class="shadow appearance-none border border-indigo-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        class="shadow appearance-none border border-green-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         required style="font-family: 'Sniglet', cursive;">
                 </div>
 
                 <div class="flex items-center justify-between">
                     <button type="submit"
-                        class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         style="font-family: 'Sniglet', cursive;">S'inscrire</button>
-                    <a class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-700"
+                    <a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-700"
                         href="{{ route('login') }}" style="font-family: 'Sniglet', cursive;">Déjà un compte ? Se
                         connecter</a>
                 </div>
