@@ -51,9 +51,9 @@ class AuthController extends Controller
             return redirect()->intended(route('home'));
         }
 
-        // L'authentification a échoué
+        
         return back()->withErrors([
-            'email' => 'Les informations d\'identification fournies ne correspondent pas à nos enregistrements.',
+            'email' => 'informations saiser ne sont pas enregistrer a notre base de donnee',
         ]);
     }
 
