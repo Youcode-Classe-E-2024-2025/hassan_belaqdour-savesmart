@@ -17,5 +17,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('/home', function () {
-    return "Bienvenue sur la page d'accueil!";
+    return view('dashboard'); // Affiche la vue dashboard.blade.php
 })->name('home')->middleware('auth');
