@@ -8,16 +8,17 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('family_profile_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('category_id')->constrained()->onDelete('restrict');
             $table->decimal('amount', 10, 2);
-            $table->enum('type', ['income', 'expense']);
             $table->date('date');
             $table->text('description')->nullable();
+            $table->enum('type', ['revenu', 'depense']);
             $table->timestamps();
         });
     }
