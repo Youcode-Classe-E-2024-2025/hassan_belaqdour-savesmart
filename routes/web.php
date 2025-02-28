@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FamilyProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,3 +20,5 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', function () {
     return view('dashboard');
 })->name('home')->middleware('auth');
+
+Route::resource('family_profiles', FamilyProfileController::class)->middleware('auth');
