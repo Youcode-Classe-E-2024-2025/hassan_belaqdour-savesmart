@@ -155,4 +155,26 @@ class FamilyProfileController extends Controller
 
         return redirect()->route('home');
     }
+
+    /**
+     * Display the dashboard.
+     */
+    public function showDashboard()
+    {
+        $selectedFamilyProfileId = session('selected_family_profile_id');
+
+        $familyProfile = null; // Initialiser $familyProfile à null par défaut
+
+        if ($selectedFamilyProfileId) {
+            try {
+                $familyProfile = FamilyProfile::where('user_id', Auth::id())->findOrFail($selectedFamilyProfileId); // Récupère le profil
+            } catch (\Exception $e) {
+                session()->forget('selected_family_profile_id'); // Supprime l'ID invalide de la session
+                $familyProfile = null; // S'assurer que $familyProfile est null en cas d'erreur
+                // On ne redirige pas, on continue vers le dashboard avec $familyProfile à null
+            }
+        }
+
+        return view('dashboard', compact('familyProfile')); // Passe le profil à la vue
+    }
 }
