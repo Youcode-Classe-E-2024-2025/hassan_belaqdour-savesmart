@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FamilyProfileController;
+use App\Http\Controllers\TransactionController; // Ajout de l'import pour TransactionController
 use Illuminate\Support\Facades\Auth; // Assure-toi que Auth est importé
 
 Route::get('/', function () {
@@ -26,3 +27,6 @@ Route::get('/select-profile', [FamilyProfileController::class, 'selectProfile'])
 Route::post('/select-profile', [FamilyProfileController::class, 'storeSelectedProfile'])->name('store_selected_profile')->middleware('auth');
 
 Route::resource('family_profiles', FamilyProfileController::class)->middleware('auth');
+
+// Ajout des routes pour les transactions
+Route::resource('transactions', TransactionController::class)->middleware('auth');
