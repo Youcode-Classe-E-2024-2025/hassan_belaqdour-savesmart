@@ -132,9 +132,13 @@ class FamilyProfileController extends Controller
     {
         $familyProfiles = FamilyProfile::where('user_id', Auth::id())->get();
 
-        // Si l'utilisateur n'a qu'un seul profil, on le redirige directement vers le dashboard avec ce profil
-        if ($familyProfiles->count() === 1) {
-            session(['selected_family_profile_id' => $familyProfiles->first()->id]);
+        // Si l'utilisateur n'a qu'un seul profil, ou aucun profil, on le redirige directement vers le dashboard
+        if ($familyProfiles->count() <= 1) {
+            if ($familyProfiles->isNotEmpty()) {
+                session(['selected_family_profile_id' => $familyProfiles->first()->id]);
+            } else {
+                session()->forget('selected_family_profile_id'); // S'assure qu'aucun profil n'est sélectionné
+            }
             return redirect()->route('home');
         }
 
