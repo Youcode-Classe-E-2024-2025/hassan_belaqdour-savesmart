@@ -60,12 +60,14 @@
                     <h3 class="text-lg font-semibold mb-2 text-green-600" style="font-family: 'Sniglet', cursive;">
                         Actions Rapides</h3>
                     <ul class="list-disc list-inside text-gray-700" style="font-family: 'Sniglet', cursive;">
-                        <li><a href="#" class="text-purple-500 hover:text-purple-700">Ajouter une transaction</a>
-                        </li>
-                        <li><a href="#" class="text-purple-500 hover:text-purple-700">Gérer les catégories</a></li>
+                        <li><a href="{{ route('transactions.create') }}"
+                                class="text-purple-500 hover:text-purple-700">Ajouter une transaction</a></li>
+                        <li><a href="{{ route('categories.index') }}"
+                                class="text-purple-500 hover:text-purple-700">Gérer les catégories</a></li>
                         <li><a href="{{ route('family_profiles.index') }}"
-                                class="text-purple-500 hover:text-purple-700">Gérer les profils familiaux</a>
-                        </li>
+                                class="text-purple-500 hover:text-purple-700">Gérer les profils familiaux</a></li>
+                        <li><a href="{{ route('transactions.index') }}"
+                                class="text-purple-500 hover:text-purple-700">Voir toutes les transactions</a></li>
                     </ul>
                 </div>
             </div>
