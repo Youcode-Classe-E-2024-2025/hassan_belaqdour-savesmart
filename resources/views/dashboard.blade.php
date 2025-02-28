@@ -30,7 +30,11 @@
 
                 <div class="flex items-center space-x-4">
                     <span class="text-gray-700" style="font-family: 'Sniglet', cursive;">Bonjour,
-                        {{ Auth::user()->name }}</span>
+                        {{ Auth::user()->name }}
+                        @if(isset($familyProfile))
+                            (Profil: {{ $familyProfile->first_name }} {{ $familyProfile->last_name }})
+                        @endif
+                    </span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
