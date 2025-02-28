@@ -123,4 +123,32 @@ class FamilyProfileController extends Controller
 
         return redirect()->route('family_profiles.index')->with('success', 'Profil familial supprimé avec succès.');
     }
+
+    // ==================================================================
+    // AJOUT DES METHODES selectProfile ET storeSelectedProfile
+    // ==================================================================
+
+    public function selectProfile()
+    {
+        $familyProfiles = FamilyProfile::where('user_id', Auth::id())->get();
+
+        // Si l'utilisateur n'a qu'un seul profil, on le redirige directement vers le dashboard avec ce profil
+        if ($familyProfiles->count() === 1) {
+            session(['selected_family_profile_id' => $familyProfiles->first()->id]);
+            return redirect()->route('home');
+        }
+
+        return view('family_profiles.select', compact('familyProfiles'));
+    }
+
+    public function storeSelectedProfile(Request $request)
+    {
+        $request->validate([
+            'family_profile_id' => 'required|exists:family_profiles,id,user_id,' . Auth::id(), // Vérifie que le profil appartient bien à l'utilisateur
+        ]);
+
+        session(['selected_family_profile_id' => $request->family_profile_id]);
+
+        return redirect()->route('home');
+    }
 }

@@ -48,10 +48,9 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('home'));
+            return redirect()->route('select_profile');  // Redirection vers la sélection du profil
         }
 
-        
         return back()->withErrors([
             'email' => 'informations saiser ne sont pas enregistrer a notre base de donnee',
         ]);
