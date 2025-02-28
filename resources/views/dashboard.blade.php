@@ -59,7 +59,8 @@
                         <li><a href="#" class="text-purple-500 hover:text-purple-700">Ajouter une transaction</a>
                         </li>
                         <li><a href="#" class="text-purple-500 hover:text-purple-700">Gérer les catégories</a></li>
-                        <li><a href="#" class="text-purple-500 hover:text-purple-700">Voir les profils familiaux</a>
+                        <li><a href="{{ route('family_profiles.index') }}"
+                                class="text-purple-500 hover:text-purple-700">Gérer les profils familiaux</a>
                         </li>
                     </ul>
                 </div>
@@ -68,8 +69,7 @@
 
         <!-- Footer (facultatif) -->
         <footer class="bg-gray-200 py-4 mt-8">
-            <div class="container mx-auto px-4 text-center text-gray-600"
-                style="font-family: 'Sniglet', cursive;">
+            <div class="container mx-auto px-4 text-center text-gray-600" style="font-family: 'Sniglet', cursive;">
                 © {{ date('Y') }} SaveSmart - Tous droits réservés
             </div>
         </footer>
