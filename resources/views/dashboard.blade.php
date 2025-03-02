@@ -18,16 +18,64 @@
     </style>
 </head>
 
-<body class="bg-gray-100 h-screen">
+<body class="bg-gray-100 min-h-screen flex">
 
-    <div class="flex flex-col h-full">
+    <!-- Sidebar -->
+    <aside class="bg-purple-700 text-white w-64 py-4 px-3 flex-shrink-0">
+        <div class="mb-8">
+            <a href="{{ route('home') }}" class="text-2xl font-semibold block mb-2"
+                style="font-family: 'Sniglet', cursive;">SaveSmart</a>
+            <p class="text-sm opacity-75" style="font-family: 'Sniglet', cursive;">Gestion Financière</p>
+        </div>
 
-        <!-- Barre de Navigation -->
+        <nav>
+            <ul class="space-y-2">
+                <li>
+                    <a href="/dashboard"
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('dashboard') ? 'bg-purple-800' : '' }}"
+                        style="font-family: 'Sniglet', cursive;">
+                        Tableau de Bord
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('transactions.create') }}"
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('transactions.create') ? 'bg-purple-800' : '' }}"
+                        style="font-family: 'Sniglet', cursive;">
+                        Ajouter une Transaction
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('transactions.index') }}"
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('transactions.index') ? 'bg-purple-800' : '' }}"
+                        style="font-family: 'Sniglet', cursive;">
+                        Voir les Transactions
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('categories.index') }}"
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('categories.index') ? 'bg-purple-800' : '' }}"
+                        style="font-family: 'Sniglet', cursive;">
+                        Gérer les Catégories
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('family_profiles.index') }}"
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('family_profiles.index') ? 'bg-purple-800' : '' }}"
+                        style="font-family: 'Sniglet', cursive;">
+                        Gérer les Profils Familiaux
+                    </a>
+                </li>
+                <!-- Ajoutez d'autres liens ici -->
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Navigation Bar -->
         <nav class="bg-white shadow py-4">
             <div class="container mx-auto px-4 flex items-center justify-between">
-                <a href="{{ route('home') }}" class="text-2xl font-semibold text-purple-700"
-                    style="font-family: 'Sniglet', cursive;">SaveSmart</a>
-
+                <!-- Le logo est déjà dans la sidebar -->
                 <div class="flex items-center space-x-4">
                     <span class="text-gray-700" style="font-family: 'Sniglet', cursive;">Bonjour,
                         {{ Auth::user()->name }}
@@ -45,30 +93,113 @@
             </div>
         </nav>
 
-        <!-- Contenu Principal -->
         <main class="container mx-auto mt-8 px-4 flex-grow">
-            <div class="bg-white shadow rounded-lg p-6">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800" style="font-family: 'Sniglet', cursive;">Tableau
-                    de Bord</h2>
-                <p class="text-gray-700" style="font-family: 'Sniglet', cursive;">Bienvenue sur votre tableau de bord
-                    SaveSmart. Ici, vous
-                    pourrez
-                    gérer vos finances personnelles et familiales.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Left Column: Dashboard Content -->
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800" style="font-family: 'Sniglet', cursive;">
+                        Tableau de Bord</h2>
+                    <p class="text-gray-700" style="font-family: 'Sniglet', cursive;">Bienvenue sur votre tableau de
+                        bord SaveSmart. Ici, vous pourrez gérer vos finances personnelles et familiales.</p>
 
-                <!-- Ajoutez ici d'autres éléments de votre tableau de bord (résumés, graphiques, etc.) -->
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold mb-2 text-green-600" style="font-family: 'Sniglet', cursive;">
-                        Actions Rapides</h3>
-                    <ul class="list-disc list-inside text-gray-700" style="font-family: 'Sniglet', cursive;">
-                        <li><a href="{{ route('transactions.create') }}"
-                                class="text-purple-500 hover:text-purple-700">Ajouter une transaction</a></li>
-                        <li><a href="{{ route('categories.index') }}"
-                                class="text-purple-500 hover:text-purple-700">Gérer les catégories</a></li>
-                        <li><a href="{{ route('family_profiles.index') }}"
-                                class="text-purple-500 hover:text-purple-700">Gérer les profils familiaux</a></li>
-                        <li><a href="{{ route('transactions.index') }}"
-                                class="text-purple-500 hover:text-purple-700">Voir toutes les transactions</a></li>
-                    </ul>
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 rounded-lg shadow p-4">
+                            <h3 class="text-gray-500 text-sm">Solde Total</h3>
+                            <p class="text-2xl font-bold text-gray-800">8,540.50 €</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg shadow p-4">
+                            <h3 class="text-gray-500 text-sm">Revenus (Mois)</h3>
+                            <p class="text-2xl font-bold text-green-600">+3,240.00 €</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg shadow p-4">
+                            <h3 class="text-gray-500 text-sm">Dépenses (Mois)</h3>
+                            <p class="text-2xl font-bold text-red-600">-1,840.75 €</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg shadow p-4">
+                            <h3 class="text-gray-500 text-sm">Épargne (50/30/20)</h3>
+                            <p class="text-2xl font-bold text-purple-600">20%</p>
+                        </div>
+                    </div>
+
+                    <!-- Budget Distribution -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-4">Distribution du Budget</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>Besoins (50%)</span>
+                                    <span>2,500€</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>Envies (30%)</span>
+                                    <span>1,500€</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>Épargne (20%)</span>
+                                    <span>1,000€</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-600 h-2 rounded-full" style="width: 20%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Savings Goals -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Objectifs d'Épargne</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-medium">Vacances d'été</h4>
+                                    <span class="text-sm text-purple-600">75%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                    <div class="bg-purple-600 h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-500">
+                                    <span>1,500€ / 2,000€</span>
+                                    <span>Août 2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Recent Transactions -->
+                <div class="bg-white shadow rounded-lg p-6">
+                    <!-- Recent Transactions -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Transactions Récentes</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
+                                <div>
+                                    <p class="font-medium">Courses Alimentaires</p>
+                                    <p class="text-sm text-gray-500">15 Juin 2023</p>
+                                </div>
+                                <span class="text-red-600">-85.42 €</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
+                                <div>
+                                    <p class="font-medium">Salaire</p>
+                                    <p class="text-sm text-gray-500">14 Juin 2023</p>
+                                </div>
+                                <span class="text-green-600">+2,450.00 €</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -79,7 +210,6 @@
                 © {{ date('Y') }} SaveSmart - Tous droits réservés
             </div>
         </footer>
-
     </div>
 
 </body>
