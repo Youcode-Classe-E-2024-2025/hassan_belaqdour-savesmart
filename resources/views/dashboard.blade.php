@@ -31,7 +31,7 @@
         <nav>
             <ul class="space-y-2">
                 <li>
-                    <a href="{{ route('home') }}" <!-- Correction : Utiliser le nom de la route -->
+                    <a href="{{ route('home') }}"
                         class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('home') ? 'bg-purple-800' : '' }}"
                         style="font-family: 'Sniglet', cursive;">
                         Tableau de Bord
@@ -183,7 +183,7 @@
                                                                                 </div>
                                                                                 <div class="flex justify-between text-sm text-gray-500">
                                                                                     <span>{{ $goal->current_amount }}€ / {{ $goal->target_amount }}€</span>
-                                                                                    <span>{{ $goal->deadline ? $goal->deadline->format('M Y') : 'Sans date' }}</span>
+                                                                                    <span>{{ $goal->deadline instanceof \DateTime ? $goal->deadline->format('M Y') : 'Sans date' }}</span>
                                                                                 </div>
                                                                             </div>
                                                     @endforeach

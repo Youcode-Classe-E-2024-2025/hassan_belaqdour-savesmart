@@ -18,6 +18,10 @@ class SavingGoal extends Model
         'description',
     ];
 
+    protected $casts = [
+        'deadline' => 'date', // Ou 'datetime' si vous avez besoin de l'heure
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
