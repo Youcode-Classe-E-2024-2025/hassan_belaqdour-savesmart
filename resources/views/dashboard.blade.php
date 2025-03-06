@@ -31,8 +31,8 @@
         <nav>
             <ul class="space-y-2">
                 <li>
-                    <a href="/dashboard"
-                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('dashboard') ? 'bg-purple-800' : '' }}"
+                    <a href="{{ route('home') }}" <!-- Correction : Utiliser le nom de la route -->
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('home') ? 'bg-purple-800' : '' }}"
                         style="font-family: 'Sniglet', cursive;">
                         Tableau de Bord
                     </a>
@@ -63,6 +63,13 @@
                         class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('family_profiles.index') ? 'bg-purple-800' : '' }}"
                         style="font-family: 'Sniglet', cursive;">
                         Gérer les Profils Familiaux
+                    </a>
+                </li>
+                <li> <!-- Ajout du lien vers la gestion des objectifs d'épargne -->
+                    <a href="{{ route('saving_goals.index') }}"
+                        class="block py-2 px-4 rounded hover:bg-purple-800 {{ request()->routeIs('saving_goals.*') ? 'bg-purple-800' : '' }}"
+                        style="font-family: 'Sniglet', cursive;">
+                        Gérer les Objectifs d'Épargne
                     </a>
                 </li>
                 <!-- Ajoutez d'autres liens ici -->
@@ -160,19 +167,30 @@
                     <div>
                         <h3 class="font-semibold mb-4">Objectifs d'Épargne</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="border rounded-lg p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <h4 class="font-medium">Vacances d'été</h4>
-                                    <span class="text-sm text-purple-600">75%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                    <div class="bg-purple-600 h-2 rounded-full" style="width: 75%"></div>
-                                </div>
-                                <div class="flex justify-between text-sm text-gray-500">
-                                    <span>1,500€ / 2,000€</span>
-                                    <span>Août 2023</span>
-                                </div>
-                            </div>
+                            @if(Auth::user()->savingGoals->isNotEmpty()) <!-- Vérification avant la boucle -->
+                                                    @foreach(Auth::user()->savingGoals as $goal)
+                                                                            <div class="border rounded-lg p-4">
+                                                                                <div class="flex justify-between items-center mb-2">
+                                                                                    <h4 class="font-medium">{{ $goal->name }}</h4>
+                                                                                    @php
+                                                                                        $progress = ($goal->current_amount / $goal->target_amount) * 100;
+                                                                                        $progress = min($progress, 100); // Pour éviter que la barre dépasse 100%
+                                                                                    @endphp
+                                                                                    <span class="text-sm text-purple-600">{{ number_format($progress, 0) }}%</span>
+                                                                                </div>
+                                                                                <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                                                                    <div class="bg-purple-600 h-2 rounded-full" style="width: {{ $progress }}%"></div>
+                                                                                </div>
+                                                                                <div class="flex justify-between text-sm text-gray-500">
+                                                                                    <span>{{ $goal->current_amount }}€ / {{ $goal->target_amount }}€</span>
+                                                                                    <span>{{ $goal->deadline ? $goal->deadline->format('M Y') : 'Sans date' }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                    @endforeach
+                            @else
+                                <p>Aucun objectif d'épargne défini. <a href="{{ route('saving_goals.create') }}">Ajouter un
+                                        objectif</a></p>
+                            @endif
                         </div>
                     </div>
 
