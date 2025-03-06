@@ -33,3 +33,8 @@ Route::resource('transactions', TransactionController::class)->middleware('auth'
 Route::resource('categories', CategoryController::class)->middleware('auth');
 
 Route::resource('saving_goals', SavingGoalController::class)->middleware('auth');
+
+use App\Http\Controllers\UserController;
+
+Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit')->middleware('auth');
+Route::put('/user/update', [UserController::class, 'update'])->name('user.update')->middleware('auth');

@@ -54,4 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(SavingGoal::class);
     }
+
+    // Dans le modèle App\Models\User.php
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 }
