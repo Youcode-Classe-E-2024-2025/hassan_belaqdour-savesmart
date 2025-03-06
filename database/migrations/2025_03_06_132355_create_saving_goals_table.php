@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->decimal('current_amount', 10, 2)->default(0);
             $table->date('deadline')->nullable();
             $table->text('description')->nullable();
-            $table->timestamps();
+            $table->timestamps();  
         });
     }
 
