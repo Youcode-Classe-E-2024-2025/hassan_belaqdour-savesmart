@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'revenu_mensuel',
     ];
 
     /**
