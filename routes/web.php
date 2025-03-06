@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FamilyProfileController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\SavingGoalController;
 use App\Http\Controllers\CategoryController; // Ajout de l'import pour CategoryController
 use Illuminate\Support\Facades\Auth;
 
@@ -30,3 +31,5 @@ Route::resource('transactions', TransactionController::class)->middleware('auth'
 
 // Ajout des routes pour les catégories
 Route::resource('categories', CategoryController::class)->middleware('auth');
+
+Route::resource('saving_goals', SavingGoalController::class)->middleware('auth');
