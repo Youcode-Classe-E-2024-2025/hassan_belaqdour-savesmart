@@ -6,7 +6,7 @@ use App\Models\Transaction;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB; // Importez la facade DB pour les transactions
 
 class TransactionController extends Controller
 {
@@ -51,17 +51,39 @@ class TransactionController extends Controller
 
         $selectedFamilyProfileId = session('selected_family_profile_id');
 
-        Transaction::create([
-            'user_id' => Auth::id(),
-            'family_profile_id' => $selectedFamilyProfileId,
-            'category_id' => $request->category_id,
-            'amount' => $request->amount,
-            'date' => $request->date,
-            'description' => $request->description,
-            'type' => $request->type,
-        ]);
+        $user = Auth::user();
+        $amount = $request->amount;
+        $type = $request->type;
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction ajoutée avec succès.');
+        DB::beginTransaction(); // Démarrez la transaction
+
+        try {
+            if ($type === 'revenu') {
+                $user->revenu_mensuel += $amount;
+            } elseif ($type === 'depense') {
+                $user->revenu_mensuel -= $amount;
+            }
+
+            $user->save();
+
+            Transaction::create([
+                'user_id' => Auth::id(),
+                'family_profile_id' => $selectedFamilyProfileId,
+                'category_id' => $request->category_id,
+                'amount' => $amount,
+                'date' => $request->date,
+                'description' => $request->description,
+                'type' => $type,
+            ]);
+
+            DB::commit(); // Validez la transaction
+            return redirect()->route('transactions.index')->with('success', 'Transaction ajoutée avec succès.');
+
+        } catch (\Exception $e) {
+            DB::rollback(); // Annulez la transaction en cas d'erreur
+            \Log::error($e); // Log l'erreur pour le débogage
+            return back()->with('error', 'Erreur lors de l\'ajout de la transaction. Veuillez réessayer.');
+        }
     }
 
     /**
