@@ -8,34 +8,39 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
-    <div class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">Sélectionner un Profil Familial</h1>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl text-center">
+        <h1 class="text-2xl font-bold mb-6">Sélectionner un Profil Familial</h1>
 
         @if ($familyProfiles->isEmpty())
-            <p>Vous n'avez aucun profil familial. <a href="{{ route('family_profiles.create') }}">Créer un profil</a></p>
+            <p class="mb-4">Vous n'avez aucun profil familial.</p>
+            <a href="{{ route('family_profiles.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600">
+                <span class="text-xl font-bold mr-2">+</span> Créer un profil
+            </a>
         @else
-            <form action="{{ route('store_selected_profile') }}" method="POST" class="bg-white shadow rounded-lg p-6">
-                @csrf
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                @foreach ($familyProfiles as $profile)
+                    <form action="{{ route('store_selected_profile') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="family_profile_id" value="{{ $profile->id }}">
+                        <button type="submit" class="w-full">
+                            <div
+                                class="bg-gray-200 p-4 rounded-lg flex flex-col items-center shadow hover:bg-gray-300 transition">
+                                <img src="{{ !empty($profile->profile_image) ? asset('storage/' . ltrim($profile->profile_image, '/')) : 'https://via.placeholder.com/100' }}"
+                                    alt="Photo de profil" class="w-20 h-20 rounded-full mb-2">
 
-                <div class="mb-4">
-                    <label for="family_profile_id" class="block text-gray-700 text-sm font-bold mb-2">Choisir un profil
-                        :</label>
-                    <select id="family_profile_id" name="family_profile_id"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        @foreach ($familyProfiles as $profile)
-                            <option value="{{ $profile->id }}">{{ $profile->first_name }} {{ $profile->last_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Sélectionner
-                    </button>
-                </div>
-            </form>
+                                <p class="font-semibold">{{ $profile->first_name }} {{ $profile->last_name }}</p>
+                            </div>
+                        </button>
+                    </form>
+                @endforeach
+                <a href="{{ route('family_profiles.create') }}"
+                    class="bg-gray-300 p-4 rounded-lg flex flex-col items-center justify-center shadow hover:bg-gray-400">
+                    <span class="text-4xl font-bold text-gray-600">+</span>
+                    <p class="text-sm text-gray-700">Ajouter un profil</p>
+                </a>
+            </div>
         @endif
     </div>
 </body>
