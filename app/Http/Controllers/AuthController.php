@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use App\Models\FamilyProfile;
 
 class AuthController extends Controller
 {
@@ -49,7 +50,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('select_profile');  // Redirection vers la sélection du profil
+            $familyProfile = FamilyProfile::all();
+            return redirect()->route('select_profile', compact('familyProfile'));  // Redirection vers la sélection du profil
         }
 
         return back()->withErrors([

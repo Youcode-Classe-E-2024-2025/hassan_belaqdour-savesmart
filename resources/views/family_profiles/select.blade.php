@@ -27,9 +27,8 @@
                         <button type="submit" class="w-full">
                             <div
                                 class="bg-gray-200 p-4 rounded-lg flex flex-col items-center shadow hover:bg-gray-300 transition">
-                                <img src="{{ !empty($profile->profile_image) ? asset('storage/' . ltrim($profile->profile_image, '/')) : 'https://via.placeholder.com/100' }}"
-                                    alt="Photo de profil" class="w-20 h-20 rounded-full mb-2">
-
+                                <img src="{{ $profile->profile_image ?? asset('placeholder-image.png') }}" alt="Image de profil"
+                                    class="mt-2 rounded-full w-20 h-20 object-cover">
                                 <p class="font-semibold">{{ $profile->first_name }} {{ $profile->last_name }}</p>
                             </div>
                         </button>
