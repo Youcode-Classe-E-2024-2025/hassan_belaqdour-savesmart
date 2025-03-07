@@ -275,14 +275,47 @@
                     </div>
 
                     <!-- Objectifs d'Épargne -->
-                    <div class="bg-white shadow-md rounded p-4">
-                        <h3 class="font-semibold mb-2" style="font-family: 'Sniglet', cursive;">Objectifs d'Épargne
-                        </h3>
-                        <div class="space-y-3">
-                            <!-- Add the saving goal information here -->
-                            <p>No data found about saving goals.</p>
-                        </div>
-                    </div>
+                                                            <!-- Objectifs d'Épargne -->
+                                                            <div class="bg-white shadow-md rounded p-4 overflow-x-auto">
+                                                                <h3 class="font-semibold mb-2" style="font-family: 'Sniglet', cursive;">Objectifs d'Épargne</h3>
+                                                                <table class="min-w-full">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="py-2 px-4 border-b text-left">Nom</th>
+                                                                            <th class="py-2 px-4 border-b text-left">Montant Cible</th>
+                                                                            <th class="py-2 px-4 border-b text-left">Montant Actuel</th>
+                                                                            <th class="py-2 px-4 border-b text-left">Date Limite</th>
+                                                                            <th class="py-2 px-4 border-b text-left">Actions</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @forelse($saving_goals as $goal)
+                                                                            <tr>
+                                                                                <td class="py-2 px-4 border-b">{{ $goal->name }}</td>
+                                                                                <td class="py-2 px-4 border-b">{{ number_format($goal->target_amount, 2) }} €</td>
+                                                                                <td class="py-2 px-4 border-b">{{ number_format($goal->current_amount, 2) }} €</td>
+                                                                                <td class="py-2 px-4 border-b">{{ $goal->deadline ? $goal->deadline->format('d/m/Y') : '-' }}</td>
+                                                                                <td class="py-2 px-4 border-b">
+                                                                                    <a href="{{ route('saving_goals.show', $goal->id) }}"
+                                                                                        class="text-blue-500 hover:text-blue-700">Voir</a>
+                                                                                    <a href="{{ route('saving_goals.edit', $goal->id) }}"
+                                                                                        class="text-green-500 hover:text-green-700 ml-2">Modifier</a>
+                                                                                    <form action="{{ route('saving_goals.destroy', $goal->id) }}" method="POST" class="inline">
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                        <button type="submit" class="text-red-500 hover:text-red-700 ml-2"
+                                                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet objectif ?')">Supprimer</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                            </tr>
+                                                                        @empty
+                                                                            <tr>
+                                                                                <td class="py-2 px-4 border-b" colspan="5">Aucun objectif d'épargne trouvé.</td>
+                                                                            </tr>
+                                                                        @endforelse
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                 </div>
 
             </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use App\Models\SavingGoal;
 use App\Models\Transaction;
 
 class FamilyProfileController extends Controller
@@ -143,15 +144,21 @@ class FamilyProfileController extends Controller
             }
         }
 
-        // Récupérer toutes les catégories
-        $categories = Category::all();
+        // Récupérer toutes les catégories associées à l'utilisateur authentifié
+        $categories = Category::where('user_id', Auth::id())->get();
 
-        // Récupérer toutes les transactions
-        $transactions = Transaction::all();
+        // Récupérer toutes les transactions associées à l'utilisateur authentifié
+        $transactions = Transaction::where('user_id', Auth::id())->orderBy('date', 'desc')->limit(5)->get();
 
+        // Récupérer les objectifs d'épargne de l'utilisateur authentifié
+        $saving_goals = SavingGoal::where('user_id', Auth::id())->get();
+
+        // Récupérer les données de l'utilisateur authentifié
+        $user = Auth::user(); // Récupérer l'utilisateur authentifié
 
         // Passer les données à la vue
-        return view('dashboard', compact('familyProfile', 'categories', 'transactions'));
+        return view('dashboard', compact('familyProfile', 'categories', 'transactions', 'user', 'saving_goals'));
     }
+
 
 }
