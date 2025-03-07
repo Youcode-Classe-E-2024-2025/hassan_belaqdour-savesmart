@@ -37,13 +37,13 @@
                         Tableau de Bord
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('transactions.index') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('transactions.index') ? 'bg-gray-200' : '' }}"
                         style="font-family: 'Sniglet', cursive;">
                         Voir les Transactions
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ route('categories.index') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('categories.index') ? 'bg-gray-200' : '' }}"
@@ -58,13 +58,13 @@
                         Gérer les Profils Familiaux
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('saving_goals.index') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('saving_goals.index') ? 'bg-gray-200' : '' }}"
                         style="font-family: 'Sniglet', cursive;">
                         Gérer les Objectifs d'Épargne
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ route('user.edit') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('user.edit') ? 'bg-gray-200' : '' }}"
@@ -84,8 +84,17 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <!--  Profile Image and Name -->
-                    <img src="{{ asset('placeholder-image.png') }}" alt="Profile" class="rounded-full w-10 h-10">
-                    <span class="font-semibold" style="font-family: 'Sniglet', cursive;">{{ Auth::user()->name }}</span>
+                    <img src="{{ $familyProfile->profile_image ?? asset('placeholder-image.png') }}" alt="Profile"
+                        class="rounded-full w-10 h-10">
+                    <div class="flex flex-col">
+                        <span class="font-semibold"
+                            style="font-family: 'Sniglet', cursive;">{{ Auth::user()->name }}</span>
+                        @if ($familyProfile)
+                            <span class="text-sm text-gray-500" style="font-family: 'Sniglet', cursive;">
+                                Profil : {{ $familyProfile->first_name }} {{ $familyProfile->last_name }}
+                            </span>
+                        @endif
+                    </div>
                 </div>
                 <!-- Déconnexion Button -->
                 <form method="POST" action="{{ route('logout') }}">
@@ -110,7 +119,8 @@
                             <h3 class="text-gray-500 text-sm" style="font-family: 'Sniglet', cursive;">Solde Total</h3>
                             <p class="text-2xl font-bold text-gray-800">
                                 {{ number_format(Auth::user()->revenu_mensuel, 2) }}
-                                €</p>
+                                €
+                            </p>
                         </div>
 
                         <!-- Revenus -->
@@ -275,47 +285,48 @@
                     </div>
 
                     <!-- Objectifs d'Épargne -->
-                                                            <!-- Objectifs d'Épargne -->
-                                                            <div class="bg-white shadow-md rounded p-4 overflow-x-auto">
-                                                                <h3 class="font-semibold mb-2" style="font-family: 'Sniglet', cursive;">Objectifs d'Épargne</h3>
-                                                                <table class="min-w-full">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th class="py-2 px-4 border-b text-left">Nom</th>
-                                                                            <th class="py-2 px-4 border-b text-left">Montant Cible</th>
-                                                                            <th class="py-2 px-4 border-b text-left">Montant Actuel</th>
-                                                                            <th class="py-2 px-4 border-b text-left">Date Limite</th>
-                                                                            <th class="py-2 px-4 border-b text-left">Actions</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        @forelse($saving_goals as $goal)
-                                                                            <tr>
-                                                                                <td class="py-2 px-4 border-b">{{ $goal->name }}</td>
-                                                                                <td class="py-2 px-4 border-b">{{ number_format($goal->target_amount, 2) }} €</td>
-                                                                                <td class="py-2 px-4 border-b">{{ number_format($goal->current_amount, 2) }} €</td>
-                                                                                <td class="py-2 px-4 border-b">{{ $goal->deadline ? $goal->deadline->format('d/m/Y') : '-' }}</td>
-                                                                                <td class="py-2 px-4 border-b">
-                                                                                    <a href="{{ route('saving_goals.show', $goal->id) }}"
-                                                                                        class="text-blue-500 hover:text-blue-700">Voir</a>
-                                                                                    <a href="{{ route('saving_goals.edit', $goal->id) }}"
-                                                                                        class="text-green-500 hover:text-green-700 ml-2">Modifier</a>
-                                                                                    <form action="{{ route('saving_goals.destroy', $goal->id) }}" method="POST" class="inline">
-                                                                                        @csrf
-                                                                                        @method('DELETE')
-                                                                                        <button type="submit" class="text-red-500 hover:text-red-700 ml-2"
-                                                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet objectif ?')">Supprimer</button>
-                                                                                    </form>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @empty
-                                                                            <tr>
-                                                                                <td class="py-2 px-4 border-b" colspan="5">Aucun objectif d'épargne trouvé.</td>
-                                                                            </tr>
-                                                                        @endforelse
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                    <div class="bg-white shadow-md rounded p-4 overflow-x-auto">
+                        <h3 class="font-semibold mb-2" style="font-family: 'Sniglet', cursive;">Objectifs d'Épargne</h3>
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 border-b text-left">Nom</th>
+                                    <th class="py-2 px-4 border-b text-left">Montant Cible</th>
+                                    <th class="py-2 px-4 border-b text-left">Montant Actuel</th>
+                                    <th class="py-2 px-4 border-b text-left">Date Limite</th>
+                                    <th class="py-2 px-4 border-b text-left">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($saving_goals as $goal)
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">{{ $goal->name }}</td>
+                                        <td class="py-2 px-4 border-b">{{ number_format($goal->target_amount, 2) }} €</td>
+                                        <td class="py-2 px-4 border-b">{{ number_format($goal->current_amount, 2) }} €</td>
+                                        <td class="py-2 px-4 border-b">
+                                            {{ $goal->deadline ? $goal->deadline->format('d/m/Y') : '-' }}</td>
+                                        <td class="py-2 px-4 border-b">
+                                            <a href="{{ route('saving_goals.show', $goal->id) }}"
+                                                class="text-blue-500 hover:text-blue-700">Voir</a>
+                                            <a href="{{ route('saving_goals.edit', $goal->id) }}"
+                                                class="text-green-500 hover:text-green-700 ml-2">Modifier</a>
+                                            <form action="{{ route('saving_goals.destroy', $goal->id) }}" method="POST"
+                                                class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-500 hover:text-red-700 ml-2"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet objectif ?')">Supprimer</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="py-2 px-4 border-b" colspan="5">Aucun objectif d'épargne trouvé.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
