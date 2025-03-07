@@ -32,8 +32,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('user_id', Auth::id())->get();
-        return view('transactions.create', compact('categories'));
+        return view('transactions.create');
     }
 
     /**

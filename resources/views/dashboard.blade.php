@@ -38,13 +38,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('transactions.create') }}"
-                        class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('transactions.create') ? 'bg-gray-200' : '' }}"
-                        style="font-family: 'Sniglet', cursive;">
-                        Ajouter une Transaction
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('transactions.index') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('transactions.index') ? 'bg-gray-200' : '' }}"
                         style="font-family: 'Sniglet', cursive;">
@@ -115,7 +108,8 @@
                         <!-- Solde Total -->
                         <div class="bg-white shadow-md rounded p-4">
                             <h3 class="text-gray-500 text-sm" style="font-family: 'Sniglet', cursive;">Solde Total</h3>
-                            <p class="text-2xl font-bold text-gray-800">{{ number_format(Auth::user()->revenu_mensuel, 2) }}
+                            <p class="text-2xl font-bold text-gray-800">
+                                {{ number_format(Auth::user()->revenu_mensuel, 2) }}
                                 €</p>
                         </div>
 
@@ -263,20 +257,20 @@
                         <h3 class="font-semibold mb-2" style="font-family: 'Sniglet', cursive;">Transactions
                             Récentes</h3>
                         <div class="space-y-3">
-                            <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
-                                <div>
-                                    <p class="font-medium">Courses Alimentaires</p>
-                                    <p class="text-sm text-gray-500">15 Juin 2023</p>
+                            @forelse($transactions as $transaction)
+                                <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
+                                    <div>
+                                        <p class="font-medium">{{ $transaction->category->name }}</p>
+                                        <p class="text-sm text-gray-500">{{ $transaction->date->format('d M Y') }}</p>
+                                    </div>
+                                    <span class="{{ $transaction->type == 'depense' ? 'text-red-600' : 'text-green-600' }}">
+                                        {{ $transaction->type == 'depense' ? '-' : '+' }}{{ number_format($transaction->amount, 2) }}
+                                        €
+                                    </span>
                                 </div>
-                                <span class="text-red-600">-85.42 €</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
-                                <div>
-                                    <p class="font-medium">Salaire</p>
-                                    <p class="text-sm text-gray-500">14 Juin 2023</p>
-                                </div>
-                                <span class="text-green-600">+2,450.00 €</span>
-                            </div>
+                            @empty
+                                <p>No transaction added.</p>
+                            @endforelse
                         </div>
                     </div>
 
@@ -285,20 +279,8 @@
                         <h3 class="font-semibold mb-2" style="font-family: 'Sniglet', cursive;">Objectifs d'Épargne
                         </h3>
                         <div class="space-y-3">
-                            <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
-                                <div>
-                                    <p class="font-medium">Vacances d'été</p>
-                                    <p class="text-sm text-gray-500">Juin 2024</p>
-                                </div>
-                                <span class="text-blue-600">50%</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 hover:bg-gray-50 rounded">
-                                <div>
-                                    <p class="font-medium">Nouvelle Voiture</p>
-                                    <p class="text-sm text-gray-500">Décembre 2024</p>
-                                </div>
-                                <span class="text-blue-600">25%</span>
-                            </div>
+                            <!-- Add the saving goal information here -->
+                            <p>No data found about saving goals.</p>
                         </div>
                     </div>
                 </div>
